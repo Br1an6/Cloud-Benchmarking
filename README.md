@@ -5,4 +5,4 @@ CS553: Cloud Computing
 
 <https://github.com/vinits91/Cloud-Computing>
 
-<https://github.com/hparik11/Cloud_Benchmarkingi>
+<https://github.com/hparik11/Cloud_Benchmarking>
