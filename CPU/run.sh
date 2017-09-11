@@ -1,4 +1,5 @@
 #!/bin/sh
+# please do chmod +x run.sh
 rm -r results
 mkdir results
 
