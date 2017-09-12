@@ -2,19 +2,29 @@ import sys
 import threading
 import time
 
-def flops():
+itera = 64 ** 3 # 64 is beacuse it can be a division of 1, 2, 4, 8
+
+def flops(num_of_thread):
     """
     floating point operations per second
+    Args:
+        num_of_thread
     """
     nums = [1.3, 10.5, 12.1, 30.4]
-    nums[0] += nums[1] + nums[2] + nums[3]
+    num = 0
+    for i in range(int(itera/num_of_thread)):
+        num = nums[1] + nums[2] + nums[3]
 
-def iops():
+def iops(num_of_thread):
     """
     integer operations per second
+    Args:
+        num_of_thread
     """
     nums = [5, 20, 12, 30]
-    nums[0] += nums[1] + nums[2] + nums[3]
+    num = 0
+    for i in range(int(itera/num_of_thread)):
+        num = nums[1] + nums[2] + nums[3]
 
 def createAndRunThread(num_of_thread, data_type):
     """
@@ -25,14 +35,20 @@ def createAndRunThread(num_of_thread, data_type):
     Returns:
         Nothing
     """
+    list_of_t = []
     if data_type == 'flops':
         for i in range(num_of_thread):
-            t = threading.Thread(target=flops)
+            t = threading.Thread(target=flops, args=(num_of_thread,))
+            list_of_t.append(t)
             t.start()
     elif data_type == 'iops':
         for i in range(num_of_thread):
-            t = threading.Thread(target=iops)
+            t = threading.Thread(target=iops, args=(num_of_thread,))
+            list_of_t.append(t)
             t.start()
+
+    for t in list_of_t:
+        t.join()
 
 
 def main():
@@ -50,11 +66,13 @@ def main():
         start = time.time()
         createAndRunThread(num_of_thread, data_type)
         duration = time.time() - start
-        g_duration = duration / (10**9)
+        print('Time elapsed', duration)
+        ops = itera / duration
+        gops = ops / (10**9)
         if data_type == 'flops':
-            print(  "Giga FLOPS:", g_duration)
+            print("Giga FLOPS:", gops)
         else:
-            print(  "Giga ILOPS:", g_duration)
+            print("Giga ILOPS:", gops)
 
 if __name__ == '__main__':
     main()
