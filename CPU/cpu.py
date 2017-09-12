@@ -1,5 +1,6 @@
 import sys
-import threading
+# import threading
+import multiprocessing
 import time
 
 itera = 64 ** 3 # 64 is beacuse it can be a division of 1, 2, 4, 8
@@ -38,12 +39,14 @@ def createAndRunThread(num_of_thread, data_type):
     list_of_t = []
     if data_type == 'flops':
         for i in range(num_of_thread):
-            t = threading.Thread(target=flops, args=(num_of_thread,))
+            # t = threading.Thread(target=flops, args=(num_of_thread,))
+            t = multiprocessing.Process(target=flops, args=(num_of_thread,))
             list_of_t.append(t)
             t.start()
     elif data_type == 'iops':
         for i in range(num_of_thread):
-            t = threading.Thread(target=iops, args=(num_of_thread,))
+            # t = threading.Thread(target=iops, args=(num_of_thread,))
+            t = multiprocessing.Process(target=iops, args=(num_of_thread,))
             list_of_t.append(t)
             t.start()
 
