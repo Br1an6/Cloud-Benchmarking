@@ -61,7 +61,7 @@ def main():
         operation: iops, flops
     """
     if len(sys.argv) != 3:              # error handling
-        print('Error: invalid arguments')
+        print 'Error: invalid arguments'
     else:
         num_of_thread = int(sys.argv[1])
         data_type = sys.argv[2]
@@ -69,13 +69,13 @@ def main():
         start = time.time()
         createAndRunThread(num_of_thread, data_type)
         duration = time.time() - start
-        print('Time elapsed', duration)
+        print 'Time elapsed', duration
         ops = itera / duration
         gops = ops / (10**9)
         if data_type == 'flops':
-            print("Giga FLOPS:", gops)
+            print 'Giga FLOPS:', gops
         else:
-            print("Giga ILOPS:", gops)
+            print 'Giga ILOPS:', gops
 
 if __name__ == '__main__':
     main()

@@ -14,12 +14,12 @@ def main():
     client.connect((target_host, target_port))
     start = time.time()
     # send some data
-    client.send(bytes(32))
+    client.send("GET / HTTP/1.1\r\nHost: 127.0.0.1\r\n\r\n")
 
     # receive data
     response = client.recv(4096)
     duration = start - time.time()
-    print(response)
+    print response
 
 if __name__ == '__main__':
     main()
