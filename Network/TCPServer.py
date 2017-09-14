@@ -1,5 +1,6 @@
 import socket
 import threading
+import sys
 
 bind_ip = "127.0.0.1"
 bind_port = 9999
@@ -17,6 +18,7 @@ def handle_client(client_socket):
 
     # print out what the client sends
     request = client_socket.recv(1024)
+    print "[*] size of packet (bytes) :", sys.getsizeof(request)
 
     print "[*] Reveived: %s" % request
 

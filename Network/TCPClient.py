@@ -13,8 +13,8 @@ def main():
     # connect the client
     client.connect((target_host, target_port))
     start = time.time()
-    # send some data
-    client.send("GET / HTTP/1.1\r\nHost: 127.0.0.1\r\n\r\n")
+    # send 64 bytes
+    client.send(bytes(111111111111111111111111111))
 
     # receive data
     response = client.recv(4096)
