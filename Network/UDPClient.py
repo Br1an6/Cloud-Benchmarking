@@ -20,7 +20,6 @@ def send2server(bytes2send):
     client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     client.sendto(bytes2send, (target_host, target_port))
-    # client.sendto(bytes(0x01), (target_host, target_port))
     data, addr = client.recvfrom(4096)
 
     print '[*] Get data:', data
@@ -36,7 +35,7 @@ def main():
         f = open('TestFile64KB','rb')
         bt = f.read()
         print '[*] Send Packet with size(bytes)',  len(bt)
-        # thread handling`
+        # thread handling
         flg = int(len(bt) / num_of_thread)
         start_index = 0
         list_of_t = []
