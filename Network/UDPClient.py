@@ -3,7 +3,7 @@ import sys
 import multiprocessing
 import time
 """
-for mac testing command: sudo sysctl -w net.inet.udp.maxdgram=65535
+for mac testing command: 
 due to by default macOS has limited the maximum UDP-package to be 9216 bytes
 """
 
@@ -39,6 +39,7 @@ def main():
         flg = int(len(bt) / num_of_thread)
         start_index = 0
         list_of_t = []
+        start = time.time()
         for i in range(num_of_thread):
             end_index = start_index + flg
             if end_index > len(bt): #error handling
@@ -52,7 +53,10 @@ def main():
         for t in list_of_t:
             t.join()
 
-    f.close()
+        duration = time.time() - start
+        print 'Time elapsed', duration
+        print 'Throughput(Mega Bits/Sec)', (len(bt) * 0.000008) / duration 
+        f.close()
 
 
 
