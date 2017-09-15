@@ -13,7 +13,7 @@ def handle_client():
 
     recv_data, addr = server.recvfrom(1024)
 
-    print "[*] Reveived: %s" % recv_data
+    print "[*] Reveived: %s from %s" % (recv_data, addr)
 
     # send back a packet
     server.sendto("Response", addr)
