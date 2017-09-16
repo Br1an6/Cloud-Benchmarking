@@ -3,14 +3,15 @@ import sys
 import multiprocessing
 import time
 """
-for mac testing command: 
+for mac testing command:
 due to by default macOS has limited the maximum UDP-package to be 9216 bytes
 """
+
 
 def send2server(bytes2send):
     """
     Send packet to server
-    arg:
+    Arg:
         bytes2send...bytes
     """
     target_host = "127.0.0.1"
@@ -24,15 +25,17 @@ def send2server(bytes2send):
 
     print '[*] Get data:', data
 
+
 def main():
+    """ main """
     if len(sys.argv) != 2:              # error handling
         print 'Error: invalid arguments'
-    elif int(sys.argv[1]) not in  [1, 2, 4, 8]:
+    elif int(sys.argv[1]) not in [1, 2, 4, 8]:
         print 'Error: invalid arguments (Thread has to be 1, 2, 4, 8)'
     else:
         num_of_thread = int(sys.argv[1])
 
-        f = open('TestFile64KB','rb')
+        f = open('TestFile64KB', 'rb')
         bt = f.read()
         print '[*] Send Packet with size(bytes)',  len(bt)
         # thread handling
@@ -42,7 +45,7 @@ def main():
         start = time.time()
         for i in range(num_of_thread):
             end_index = start_index + flg
-            if end_index > len(bt): #error handling
+            if end_index > len(bt):  # error handling
                 break
             bytes2send = bt[start_index:end_index]
             t = multiprocessing.Process(target=send2server, args=(bytes2send,))
@@ -55,7 +58,7 @@ def main():
 
         duration = time.time() - start
         print 'Time elapsed', duration
-        print 'Throughput(Mega Bits/Sec)', (len(bt) * 0.000008) / duration 
+        print 'Throughput(Mega Bits/Sec)', (len(bt) * 0.000008) / duration
         f.close()
 
 

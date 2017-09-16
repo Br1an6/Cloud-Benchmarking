@@ -3,7 +3,9 @@ import sys
 import multiprocessing
 import time
 
-itera = 64 ** 3 # 64 is beacuse it can be a division of 1, 2, 4, 8
+
+itera = 64 ** 3  # 64 is beacuse it can be a division of 1, 2, 4, 8
+
 
 def flops(num_of_thread):
     """
@@ -16,6 +18,7 @@ def flops(num_of_thread):
     for i in range(int(itera/num_of_thread)):
         num = nums[1] + nums[2] + nums[3]
 
+
 def iops(num_of_thread):
     """
     integer operations per second
@@ -26,6 +29,7 @@ def iops(num_of_thread):
     num = 0
     for i in range(int(itera/num_of_thread)):
         num = nums[1] + nums[2] + nums[3]
+
 
 def createAndRunThread(num_of_thread, data_type):
     """
