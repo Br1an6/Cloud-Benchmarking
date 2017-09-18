@@ -1,14 +1,6 @@
 # Cloud-Computing
 CS553: Cloud Computing
 
-###### Useful link
-
-<https://github.com/vinits91/Cloud-Computing>
-
-<https://github.com/hparik11/Cloud_Benchmarking>
-
-<https://github.com/CS553CloudComputing/Assgn1Benchmarking/tree/master/Source/Code>
-
 ## TODO:
 
 Brian         | Sharel
@@ -21,6 +13,16 @@ doc           |doc
 
 > comparing result with benchmark-testing tool
 >> test on KVM
+
+###### Useful link
+
+<https://github.com/vinits91/Cloud-Computing>
+
+<https://github.com/hparik11/Cloud_Benchmarking>
+
+<https://github.com/CS553CloudComputing/Assgn1Benchmarking/tree/master/Source/Code>
+
+======
 
 <https://openstack.tacc.chameleoncloud.org>
 
