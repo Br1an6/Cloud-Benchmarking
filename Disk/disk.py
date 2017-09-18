@@ -8,15 +8,15 @@ testfile_size = 20 * 1024 * 1024  # File: TestFile20MB
 
 
 def readAndWrite(block_size):
-    f = open('TestFile20MB', 'r')
-    itr = int(math.ceil(testfile_size / block_size))
-    for i in range(itr):
-        f.read(block_size)
+    f = open('TestFile20MB', 'rb')
+    dst = open('TestFile20MBWrite', 'wb')
+    while True:
+        copy_buffer = f.read(block_size)
+        if not copy_buffer:
+            break
+        dst.write(copy_buffer)
     f.close()
-    f = open('TestFile20MB', 'w')
-    for i in range(itr):
-        f.write('0' * block_size)
-    f.close()
+    dst.close()
 
 
 def sequentialRead(block_size):
