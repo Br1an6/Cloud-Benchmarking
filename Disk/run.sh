@@ -4,7 +4,7 @@ if [ -d "results" ]; then
     rm -r results
 fi
 mkdir results
-for op in rw seqread ranread
+for op in seqread ranread
 do
     for block in 1B 1KB 1MB 10MB
     do
