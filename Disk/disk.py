@@ -7,8 +7,8 @@ import random
 testfile_size = 20 * 1024 * 1024  # File: TestFile20MB
 
 
-def sequentialRW(block_size):
-    f = open('TestFile20MB', 'rb')
+def readAndWrite(block_size):
+    f = open('TestFile20MB', 'r')
     itr = int(math.ceil(testfile_size / block_size))
     for i in range(itr):
         f.read(block_size)
@@ -19,8 +19,15 @@ def sequentialRW(block_size):
     f.close()
 
 
+def sequentialRead(block_size):
+    f = open('TestFile20MB', 'rb')
+    itr = int(math.ceil(testfile_size / block_size))
+    for i in range(itr):
+        f.read(block_size)
+    f.close()
 
-def randomRW(block_size):
+
+def randomRead(block_size):
     f = open('TestFile20MB', 'rb')
     itr = int(math.ceil(testfile_size / block_size))
     for i in range(itr):
@@ -29,18 +36,13 @@ def randomRW(block_size):
         f.seek(ran_start_offset)
         f.read(block_size)
     f.close()
-    f = open('TestFile20MB', 'w')
-    for i in range(itr):
-        f.write('0' * block_size)
-    f.close()
-
 
 
 def createAndRunThread(op, block_size, num_of_thread):
     """
     Create and run the thread
     Args:
-        op ... operations           (seqread, ranread)
+        op ... operations           (rw, seqread, ranread)
         block_size ... block sizes  (1B, 1KB, 1MB, 10MB)
         num_of_thread ... threads   (1, 2 ,4 ,8)
     Returns:
@@ -48,10 +50,12 @@ def createAndRunThread(op, block_size, num_of_thread):
     """
     list_of_t = []
     for i in range(num_of_thread):
-        if op == 'seqread':
-            t = multiprocessing.Process(target=sequentialRW, args=(block_size,))
+        if op == 'rw':
+            t = multiprocessing.Process(target=readAndWrite, args=(block_size,))
+        elif op == 'seqread':
+            t = multiprocessing.Process(target=sequentialRead, args=(block_size,))
         elif op == 'ranread':
-            t = multiprocessing.Process(target=randomRW, args=(block_size,))
+            t = multiprocessing.Process(target=randomRead, args=(block_size,))
         list_of_t.append(t)
         t.start()
 
@@ -61,7 +65,7 @@ def createAndRunThread(op, block_size, num_of_thread):
 
 def main():
     """
-    Argv[1] ... operations  (seqread, ranread)
+    Argv[1] ... operations  (rw, seqread, ranread)
     Argv[2] ... block sizes (1B, 1KB, 1MB, 10MB)
     Argv[3] ... threads     (1, 2 ,4 ,8)
     """
