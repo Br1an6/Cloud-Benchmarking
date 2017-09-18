@@ -9,7 +9,7 @@ CS553: Cloud Computing
 
 <https://github.com/CS553CloudComputing/Assgn1Benchmarking/tree/master/Source/Code>
 
-TODO:
+## TODO:
 
 Brian         | Sharel
 ------------- | -------------
@@ -18,3 +18,6 @@ Network FO    | Memory
 benchmark     |
 creat graph   |creat graph
 doc           |doc
+
+> comparing result with benchmark-testing tool
+> test on KVM
