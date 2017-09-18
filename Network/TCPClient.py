@@ -40,19 +40,20 @@ def main():
         bt = f.read()
         print '[*] Send Packet with size(bytes)',  len(bt)
         # thread handling
-        flg = int(len(bt) / num_of_thread)
-        start_index = 0
+        # flg = int(len(bt) / num_of_thread)
+        # start_index = 0
         list_of_t = []
         start = time.time()
         for i in range(num_of_thread):
-            end_index = start_index + flg
-            if end_index > len(bt):  # error handling
-                break
-            bytes2send = bt[start_index:end_index]
-            t = multiprocessing.Process(target=send2server, args=(bytes2send,))
+            # end_index = start_index + flg
+            # if end_index > len(bt):  # error handling
+            #     break
+            # bytes2send = bt[start_index:end_index]
+            # t = multiprocessing.Process(target=send2server, args=(bytes2send,))
+            t = multiprocessing.Process(target=send2server, args=(bt,))
             list_of_t.append(t)
             t.start()
-            start_index = end_index
+            # start_index = end_index
 
         for t in list_of_t:
             t.join()

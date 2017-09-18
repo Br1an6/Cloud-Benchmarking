@@ -4,6 +4,8 @@ if [ ! -d "results" ]; then
     mkdir results
 fi
 
+# loopback
+
 for threads in 1 2 4 8
 do
     echo "Number of Thread: $threads"
