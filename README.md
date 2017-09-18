@@ -20,4 +20,7 @@ creat graph   |creat graph
 doc           |doc
 
 > comparing result with benchmark-testing tool
-> test on KVM
+>> test on KVM
+
+<https://openstack.tacc.chameleoncloud.org>
+<https://drive.google.com/file/d/0B_hC3I6jDR_-ZUZtWlRkNzVVb3M/view?usp=sharing>
