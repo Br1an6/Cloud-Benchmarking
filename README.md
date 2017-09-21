@@ -5,9 +5,9 @@ CS553: Cloud Computing
 
 Brian         | Sharel
 ------------- | -------------
-CPU fix output| GPU
-Network FO    | Memory
-benchmark     |
+Linpack       | GPU
+IPref         | Memory
+Stream        |
 creat graph   |creat graph
 doc           |doc
 
