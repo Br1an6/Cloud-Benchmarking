@@ -5,8 +5,8 @@ CS553: Cloud Computing
 
 Brian         | Sharel
 ------------- | -------------
-Linpack       | GPU
-IPref         | Memory
+Linpack       | GUDA
+IPref         |
 Stream        |
 creat graph   |creat graph
 doc           |doc
