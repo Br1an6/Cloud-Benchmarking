@@ -9,11 +9,11 @@
 #include <iostream>
 #include <pthread.h>
 #include <fstream>
-#include <stdio.h>
-#include <string.h>
-#include <time.h>
-#include <stdlib.h>
-#include <math.h>
+#include <cstdio>
+#include <string>
+#include <ctime>
+#include <cstdlib>
+#include <cmath>
 
 using namespace std;
 
@@ -26,13 +26,13 @@ enum opt{
 class Memory {
     void MemorySequentialReadOperation(int, int);
     void MemoryRandomReadOperation(int, int);
-    void MemoryReadWriteOperation(int,int);
+    void MemoryReadWriteOperation(int, int);
     int RandomNumber(int);
     
 public:
-    int ReadWriteCall(int,int);
-    int SequentialReadAccess(int, int);
-    int RandomReadAccess(int, int);
+    double ReadWriteCall(int, int);
+    double SequentialReadAccess(int, int);
+    double RandomReadAccess(int, int);
 }memory;
 
 struct arg {
@@ -41,12 +41,14 @@ struct arg {
     int itr;
 };
 
-double LatencyInms(int result, int itr) {
-    return double(((double)result / 1000) / (double)itr);
+double LatencyInms(double result, int itr) {
+    double ret = double(((double)result / 1000) / (double)itr);
+    return ret;
 }
 
-double ThroughputInMBps(int result, int block_size, int itr) {
-    return ((double)(block_size*itr) / (1000 * 1000)) / (((double)result / (1000 * 1000)));
+double ThroughputInMBps(double result, int block_size, int itr) {
+    double ret = ((double)(block_size*itr) / (1000 * 1000)) / (((double)result / (1000 * 1000)));
+    return ret;
 }
 
 int Memory::RandomNumber(int upperLimit) {
@@ -94,35 +96,34 @@ void Memory::MemorySequentialReadOperation(int block_size, int itr) {
     is.close();
 }
 
-int Memory::RandomReadAccess(int block_size, int itr) {
-    time_t start, end;
-    time(&start);
+double Memory::RandomReadAccess(int block_size, int itr) {
+    clock_t startclock, finishclock;
+    startclock = clock();
     MemoryRandomReadOperation(block_size, itr);
-    time(&end);
+    finishclock = clock();
     //keeping it int not double for calc purpose
-    int dif = difftime(end, start);
-    return dif;
+    double durationtime = (double)(finishclock - startclock) / CLOCKS_PER_SEC;
+    return durationtime;
 }
 
-int Memory::SequentialReadAccess(int block_size, int itr) {
-    time_t start, end;
-    time(&start);
+double Memory::SequentialReadAccess(int block_size, int itr) {
+    clock_t startclock, finishclock;
+    startclock = clock();
     MemorySequentialReadOperation(block_size, itr);
-    
-    time(&end);
+    finishclock = clock();
     //keeping it int not double for calc purpose
-    int dif = difftime(end, start);
-    return dif;
+    double durationtime = (double)(finishclock - startclock) / CLOCKS_PER_SEC;
+    return durationtime;
 }
 
-int Memory::ReadWriteCall(int block_size, int itr) {
-    time_t start, end;
-    time(&start);
+double Memory::ReadWriteCall(int block_size, int itr) {
+    clock_t startclock, finishclock;
+    startclock = clock();
     MemoryReadWriteOperation(block_size, itr);
-    time(&end);
+    finishclock = clock();
     //keeping it int not double for calc purpose
-    int dif = difftime(end, start);
-    return dif;
+    double durationtime = (double)(finishclock - startclock) / CLOCKS_PER_SEC;
+    return durationtime;
 }
 
 void * ReadWriteThread(void * args) {
@@ -146,7 +147,7 @@ void * SequentialReadThrerad(void * args) {
 void * RandomReadThread(void * args) {
     struct arg *arguments;
     arguments = (struct arg *)args;
-    int result = memory.RandomReadAccess(arguments->block_size, arguments->itr);
+    double result = memory.RandomReadAccess(arguments->block_size, arguments->itr);
     cout << LatencyInms(result, arguments->itr) << "\tms \t\t" << ThroughputInMBps(result, arguments->block_size, arguments->itr) << "\tMBps" << endl;
     
     pthread_exit(NULL);
