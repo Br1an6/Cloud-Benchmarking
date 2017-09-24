@@ -1,98 +1,177 @@
-#include <stdio.h>
-#include <time.h>
-#include <math.h>
-__global__ void
-floatAdd(const float *A, const float *B, float *C, int numElements)
-{
-    //Get the index 
-    int i = blockDim.x * blockIdx.x + threadIdx.x;
+#include < stdio.h >
+#include < time.h >
+#include < math.h > 
+#include < pthread.h >
 
-    if (i < numElements)
-    {
-        C[i] = A[i] + B[i];
+  __global__ void doubleKernel(double * x, int n) {
+    int tid = threadIdx.x + blockIdx.x * blockDim.x;
+    for (int i = tid; i < n; i += blockDim.x * gridDim.x) {
+      // x[i] = sqrt(pow(3.14159,i));
+      x[i] = x[i] * 2.333 + x[i] * 3.444;
+      printf("Value of x[i] is %0.2d\n", &x[i]);
     }
+  }
+
+__global__ void intKernel(int * x, int n) {
+  int tid = threadIdx.x + blockIdx.x * blockDim.x;
+  for (int i = tid; i < n; i += blockDim.x * gridDim.x) {
+    x[i] = x[i] * 2 + x[i] * 3;
+    printf("Value of x[i] is %d\n", & x[i]);
+  }
 }
 
+__global__ void shortKernel(short int * x, int n) {
+  int tid = threadIdx.x + blockIdx.x * blockDim.x;
+  for (int i = tid; i < n; i += blockDim.x * gridDim.x) {
+    x[i] = x[i] * 2 + x[i] * 3;
+    printf("Value of x[i] is %d\n", x[i]);
+  }
+}
 
-int main(void)
-{
+__global__ void charKernel(char * x, int n) {
+  int tid = threadIdx.x + blockIdx.x * blockDim.x;
+  for (int i = tid; i < n; i += blockDim.x * gridDim.x) {
 
+    printf("Value of x[i] is %s\n", x[i]);
+  }
+}
 
-    //Define number of elements
-    int numElements = 50000;
+int main(int argc, char * * argv) {
+  //Define number of elements
+	const int numElements = 50000;
 
-	//FLOPS
-    size_t size = numElements * sizeof(float);
-    printf("FLoatoperations on %d elements\n", numElements);
+  printf("Char is %zd: \n", sizeof(char));
 
-    // Allocate the host input vector A
-    float *h_A = (float *)malloc(size);
-    float *h_B = (float *)malloc(size);
-    float *h_C = (float *)malloc(size);
+  //Timing
+  clock_t start, stop;
+  double elapsed;
 
- 
-    // Initialize the host input with random generators
-    for (int i = 0; i < numElements; ++i)
-    {
-        h_A[i] = rand()/(float)RAND_MAX;
-        h_B[i] = rand()/(float)RAND_MAX;
-    }
+  //define number of streams 
+  const int cores = 8;
+  cudaStream_t streams[cores];
 
-    // Allocate the device input vector A
-    float *d_A = NULL;
-    float *d_B = NULL;
-    float *d_C = NULL;
+  int op = 0;
 
-    cudaMalloc((void **)&d_A, size);
-    cudaMalloc((void **)&d_B, size);
-    cudaMalloc((void **)&d_C, size);
-	    
-    // Copy the host input data in host memory to the device input variables in device memory
-    printf("Copy input data from the host memory to device memory\n");
-    cudaMemcpy(d_A, h_A, size, cudaMemcpyHostToDevice);
-	cudaMemcpy(d_B, h_B, size, cudaMemcpyHostToDevice);
+  if (argc < 1) {
+    printf("Please enter operation type");
+    return 0;
+  }
 
-    // Launch the  FloatAdd CUDA Kernel
-    int threadsPerBlock = 3584;  //probably more than that
-    int blocksPerGrid =(numElements + threadsPerBlock - 1) / threadsPerBlock;
-    printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
+  if (argc > 0) {
+    op = atoi(argv[1]);
+    printf("Optn is %d\n", op);
+  }
 
-	//Time to calculate
-	//Timing
-	clock_t start, stop;
+  switch (op) {
+
+  case 1:
+    printf("You selected FLOPS\n");
+	 int *flops[cores];
 
     start = clock();
-	printf("%6.3f\n", (double)start);
 
-    floatAdd<<<1, 1>>>(d_A, d_B, d_C, numElements);
-     
+    for (int i = 0; i < cores; i++) {
+      cudaStreamCreate( & streams[i]);
+      cudaMalloc( & flops[i], cores * sizeof(int));
 
-    // Copy the device result vector in device memory to the host result vector in host memory.
-    printf("Copy output data from the CUDA device to the host memory\n");
-    cudaMemcpy(h_C, d_C, size, cudaMemcpyDeviceToHost);
+      // launch one worker kernel per stream
+      intKernel << < 1, 32, 0, streams[i] >>> (flops[i], numElements);
+      printf("Creating kernel for flops  %d\n", i);
 
-    
-	//End time
-	//check end time
-	 stop = clock();
-				  
-	//10^9 for G for flops,iops,hops,qops
-	double elapsed = double(stop-start);
+    }
+    //End time
+    //check end time
+    stop = clock();
+    //10^9 for G for flops,iops,hops,qops
+    elapsed = double(stop - start);
+    printf("Time taken : %6.3f\n", double(stop - start));
+    printf("Time taken in GFLOPS: %9.9f\n", elapsed / pow(10, 9));
+    break;
 
-	printf("Time taken : %6.3f\n", double(stop-start));
-	printf  ("Time taken in GFLOPS: %9.9f\n", elapsed/pow(10,9));
+  case 2:
+    printf("You selected IOPS\n");
+    int * iops[cores];
 
-	// Clearing device global memory
-     cudaFree(d_A);
-	 cudaFree(d_B);
-	 cudaFree(d_C);
+    start = clock();
 
-    // Clearing host memory
-    free(h_A);
-    free(h_B);
-    free(h_C);
+    for (int i = 0; i < cores; i++) {
+      cudaStreamCreate( & streams[i]);
+      cudaMalloc( & iops[i], cores * sizeof(int));
 
-    printf("Process completed\n");
-    return 0;
+      // launch one worker kernel per stream
+      intKernel << < 1, 32, 0, streams[i] >>> (iops[i], numElements);
+      printf("Creating kernel for iops  %d\n", i);
+
+    }
+    //End time
+    //check end time
+    stop = clock();
+    //10^9 for G for flops,iops,hops,qops
+    elapsed = double(stop - start);
+    printf("Time taken : %6.3f\n", double(stop - start));
+    printf("Time taken in GIOPS: %9.9f\n", elapsed / pow(10, 9));
+    break;
+  case 3:
+    printf("You selected HOPS\n");
+    short int * hops[cores];
+
+    start = clock();
+
+    for (int i = 0; i < cores; i++) {
+      cudaStreamCreate( & streams[i]);
+      cudaMalloc( & hops[i], cores * sizeof(short int));
+
+      // launch one worker kernel per stream
+      shortKernel << < 1, 16, 0, streams[i] >>> (hops[i], numElements);
+      printf("Creating kernel for iops  %d\n", i);
+
+    }
+    //End time
+    //check end time
+    stop = clock();
+    //10^9 for G for flops,iops,hops,qops
+    elapsed = double(stop - start);
+    printf("Time taken : %6.3f\n", double(stop - start));
+    printf("Time taken in GHOPS: %9.9f\n", elapsed / pow(10, 9));
+    break;
+  case 4:
+    printf("You selected QOPS\n");
+    char * qops[cores];
+
+    for (int j = 0; j < cores; j++) {
+      qops[j] = "a";
+    }
+    for (int k = 0; k < cores; k++) {
+      printf("q is %s\n", qops[k]);
+    }
+
+    start = clock();
+
+    for (int i = 0; i < cores; i++) {
+      cudaStreamCreate( & streams[i]);
+      cudaMalloc( & qops[i], cores * sizeof(char));
+
+      // launch one worker kernel per stream
+      charKernel << < 1, 8, 0, streams[i] >>> (qops[i], numElements);
+      printf("Creating kernel for qops  %d\n", i);
+
+    }
+    //End time
+    //check end time
+    stop = clock();
+    //10^9 for G for flops,iops,hops,qops
+    elapsed = double(stop - start);
+    printf("Time taken : %6.3f\n", double(stop - start));
+    printf("Time taken in GQOPS: %9.9f\n", elapsed / pow(10, 9));
+    break;
+
+  default:
+    printf("Please enter valid operation type 1 or 2 or 3 or 4 for flops/iops/hops/qops respectively.\n");
+    break;
+  }
+
+  printf("Process completed\n");
+  cudaDeviceReset();
+
+  return 0;
 }
-
