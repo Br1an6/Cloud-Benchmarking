@@ -23,18 +23,6 @@ enum opt{
     ranread = 3
 };
 
-class Memory {
-    void MemorySequentialReadOperation(int, int);
-    void MemoryRandomReadOperation(int, int);
-    void MemoryReadWriteOperation(int, int);
-    int RandomNumber(int);
-    
-public:
-    double ReadWriteCall(int, int);
-    double SequentialReadAccess(int, int);
-    double RandomReadAccess(int, int);
-}memory;
-
 struct arg {
     int block_size;
     int num_of_thread;
@@ -51,17 +39,17 @@ double ThroughputInMBps(double result, int block_size, int itr) {
     return ret;
 }
 
-int Memory::RandomNumber(int upperLimit) {
+int RandomNumber(int upperLimit) {
     int random = rand() % upperLimit;
     return random;
 }
 
-void Memory::MemoryReadWriteOperation(int block_size, int itr) {
+void MemoryReadWriteOperation(int block_size, int itr) {
     ifstream is("~/TestFile20MB", ifstream::binary);
     is.seekg(0);
     char **memRead = new char*[itr];
     char **memWrite = new char*[itr];
-    
+    // cout << "\nmemory copying.." << endl;
     for (int i = 0; i<itr; i++) {
         memRead[i]=new char[block_size];
         memWrite[i]=new char[block_size];
@@ -71,11 +59,11 @@ void Memory::MemoryReadWriteOperation(int block_size, int itr) {
     is.close();
 }
 
-void Memory::MemoryRandomReadOperation(int block_size, int itr) {
+void MemoryRandomReadOperation(int block_size, int itr) {
     int r = RandomNumber(itr); //or define any number upto 20MB
     ifstream is("~/TestFile20MB", ifstream::binary);
     char **memRead = new char*[itr];
-    cout << "\nReading file from memory from random seeek.." << endl;
+    // cout << "\nRandomly Reading.." << endl;
     is.seekg(r, is.beg);
     
     for (int i = 0; i<itr; i++)
@@ -84,10 +72,10 @@ void Memory::MemoryRandomReadOperation(int block_size, int itr) {
     is.close();
 }
 
-void Memory::MemorySequentialReadOperation(int block_size, int itr) {
+void MemorySequentialReadOperation(int block_size, int itr) {
     ifstream is ("~/TestFile20MB", ifstream::binary);
     char **memRead = new char*[itr];
-    cout << "\nReading file from memory from the beginning.." << endl ;
+    // cout << "\nSequentially Reading.." << endl ;
     is.seekg(0, is.beg);
     
     for (int i = 0; i<itr; i++)
@@ -96,60 +84,40 @@ void Memory::MemorySequentialReadOperation(int block_size, int itr) {
     is.close();
 }
 
-double Memory::RandomReadAccess(int block_size, int itr) {
-    clock_t startclock, finishclock;
-    startclock = clock();
-    MemoryRandomReadOperation(block_size, itr);
-    finishclock = clock();
-    //keeping it int not double for calc purpose
-    double durationtime = (double)(finishclock - startclock) / CLOCKS_PER_SEC;
-    return durationtime;
-}
-
-double Memory::SequentialReadAccess(int block_size, int itr) {
-    clock_t startclock, finishclock;
-    startclock = clock();
-    MemorySequentialReadOperation(block_size, itr);
-    finishclock = clock();
-    //keeping it int not double for calc purpose
-    double durationtime = (double)(finishclock - startclock) / CLOCKS_PER_SEC;
-    return durationtime;
-}
-
-double Memory::ReadWriteCall(int block_size, int itr) {
-    clock_t startclock, finishclock;
-    startclock = clock();
-    MemoryReadWriteOperation(block_size, itr);
-    finishclock = clock();
-    //keeping it int not double for calc purpose
-    double durationtime = (double)(finishclock - startclock) / CLOCKS_PER_SEC;
-    return durationtime;
+void getResult(int block_size, int itr, int opt) {
+    switch (opt) {
+        case rw:
+            MemoryReadWriteOperation(block_size, itr);
+            break;
+        case seqread:
+            MemorySequentialReadOperation(block_size, itr);
+            break;
+        case ranread:
+            MemoryRandomReadOperation(block_size, itr);
+            break;
+            
+        default: cout << "Error in getting result.\n";
+    }
 }
 
 void * ReadWriteThread(void * args) {
     struct arg *arguments;
     arguments = (struct arg *)args;
-    int result = memory.ReadWriteCall(arguments->block_size, arguments->itr);
-    cout << LatencyInms(result, arguments->itr) << "\tms \t\t" << ThroughputInMBps(result, arguments->block_size, arguments->itr) << "\tMBps" << endl;
-    
+    getResult(arguments->block_size, arguments->itr, rw);
     pthread_exit(NULL);
 }
 
 void * SequentialReadThrerad(void * args) {
     struct arg *arguments;
     arguments = (struct arg *)args;
-    int result = memory.SequentialReadAccess(arguments->block_size, arguments->itr);
-    cout << LatencyInms(result, arguments->itr) << "\tms \t\t" << ThroughputInMBps(result, arguments->block_size, arguments->itr) << "\tMBps" << endl;
-    
+    getResult(arguments->block_size, arguments->itr, seqread);
     pthread_exit(NULL);
 }
 
 void * RandomReadThread(void * args) {
     struct arg *arguments;
     arguments = (struct arg *)args;
-    double result = memory.RandomReadAccess(arguments->block_size, arguments->itr);
-    cout << LatencyInms(result, arguments->itr) << "\tms \t\t" << ThroughputInMBps(result, arguments->block_size, arguments->itr) << "\tMBps" << endl;
-    
+    getResult(arguments->block_size, arguments->itr, ranread);
     pthread_exit(NULL);
 }
 
@@ -174,7 +142,8 @@ int main(int argc, char *argv[]) {
     //add to the argument
     arguments.block_size = block_size;
     arguments.itr = itr;
-    
+    clock_t startclock, finishclock;
+    startclock = clock();
     switch (opT) {
         case rw:
             for (int i = 0; i<num_of_thread; i++) {
@@ -191,7 +160,7 @@ int main(int argc, char *argv[]) {
             }
             break;
         case ranread:
-            srand (time(NULL));
+            srand(time(NULL));
             for (int i = 0; i<num_of_thread; i++) {
                 arguments.block_size = block_size;
                 arguments.num_of_thread = i;
@@ -201,6 +170,10 @@ int main(int argc, char *argv[]) {
             
         default: cout << "Please enter 1 for Read+Write, 2 for Random read or 3 for Sequential read.\n";
     }
+    
+    finishclock = clock();
+    double durationtime = (double)(finishclock - startclock) / CLOCKS_PER_SEC;
+    cout << LatencyInms(durationtime, itr) << "\tms \t" << ThroughputInMBps(durationtime, block_size, itr) << "\tMBps" << endl;
     
     pthread_exit(NULL);
 }
