@@ -49,7 +49,7 @@ void MemoryReadWriteOperation(int block_size, int itr) {
     is.seekg(0);
     char **memRead = new char*[itr];
     char **memWrite = new char*[itr];
-    // cout << "\nmemory copying.." << endl;
+    cout << "\nmemory copying.." << endl;
     for (int i = 0; i<itr; i++) {
         memRead[i]=new char[block_size];
         memWrite[i]=new char[block_size];
@@ -63,7 +63,7 @@ void MemoryRandomReadOperation(int block_size, int itr) {
     int r = RandomNumber(itr); //or define any number upto 20MB
     ifstream is("~/TestFile20MB", ifstream::binary);
     char **memRead = new char*[itr];
-    // cout << "\nRandomly Reading.." << endl;
+    cout << "\nRandomly Reading.." << endl;
     is.seekg(r, is.beg);
     
     for (int i = 0; i<itr; i++)
@@ -75,7 +75,7 @@ void MemoryRandomReadOperation(int block_size, int itr) {
 void MemorySequentialReadOperation(int block_size, int itr) {
     ifstream is ("~/TestFile20MB", ifstream::binary);
     char **memRead = new char*[itr];
-    // cout << "\nSequentially Reading.." << endl ;
+    cout << "\nSequentially Reading.." << endl ;
     is.seekg(0, is.beg);
     
     for (int i = 0; i<itr; i++)
@@ -146,14 +146,14 @@ int main(int argc, char *argv[]) {
     startclock = clock();
     switch (opT) {
         case rw:
-            for (int i = 0; i<num_of_thread; i++) {
+            for (int i = 0; i < num_of_thread; i++) {
                 arguments.block_size = block_size;
                 arguments.num_of_thread = i;
                 pthread_create(&threads[i], NULL, &ReadWriteThread, (void *)&arguments);
             }
             break;
         case seqread:
-            for (int i = 0; i<num_of_thread; i++) {
+            for (int i = 0; i < num_of_thread; i++) {
                 arguments.block_size = block_size;
                 arguments.num_of_thread = i;
                 pthread_create(&threads[i], NULL,  &SequentialReadThrerad, (void *)&arguments);
@@ -161,7 +161,7 @@ int main(int argc, char *argv[]) {
             break;
         case ranread:
             srand(time(NULL));
-            for (int i = 0; i<num_of_thread; i++) {
+            for (int i = 0; i < num_of_thread; i++) {
                 arguments.block_size = block_size;
                 arguments.num_of_thread = i;
                 pthread_create(&threads[i], NULL, &RandomReadThread, (void *)&arguments);
@@ -171,6 +171,10 @@ int main(int argc, char *argv[]) {
         default: cout << "Please enter 1 for Read+Write, 2 for Random read or 3 for Sequential read.\n";
     }
     
+    /* block until all threads complete */
+    for ( int i = 0; i < num_of_thread; ++i)
+        pthread_join(threads[i], NULL);
+
     finishclock = clock();
     double durationtime = (double)(finishclock - startclock) / CLOCKS_PER_SEC;
     cout << LatencyInms(durationtime, itr) << "\tms \t" << ThroughputInMBps(durationtime, block_size, itr) << "\tMBps" << endl;
