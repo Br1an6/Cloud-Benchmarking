@@ -2,7 +2,7 @@
 //  main.cpp
 //  memory
 //
-//  Created by Brian Liu on 9/23/17.
+//  Created by Brian Liu on 9/18/17.
 //  Copyright © 2017 Brian Liu. All rights reserved.
 //
 
@@ -21,13 +21,13 @@ enum opt{
     rw = 1,
     seqread = 2,
     ranread = 3
-};
+}; // enum for operations
 
 struct arg {
     int block_size;
     int num_of_thread;
     int itr;
-};
+}; // arg structure
 
 class Timer {
     public:
@@ -43,22 +43,22 @@ class Timer {
 
     private:
         timespec beg_, end_;
-};
+}; // for duration calculation. Originally, using cpu clock time. Switch to this for better result
 
 double LatencyInms(double result, int itr) {
     double ret = double(((double)result / 1000) / (double)itr);
     return ret;
-}
+} // get Latency in milliseconds
 
 double ThroughputInMBps(double result, int block_size, int itr) {
     double ret = ((double)(block_size*itr) / (1000 * 1000)) / (((double)result / (1000 * 1000)));
     return ret;
-}
+} // get Throughput in MBps
 
 int RandomNumber(int upperLimit) {
     int random = rand() % upperLimit;
     return random;
-}
+} // generate random number
 
 void MemoryReadWriteOperation(int block_size, int itr) {
     ifstream is("~/TestFile20MB", ifstream::binary);
@@ -73,7 +73,7 @@ void MemoryReadWriteOperation(int block_size, int itr) {
     }
 
     is.close();
-}
+} // do r+w
 
 void MemoryRandomReadOperation(int block_size, int itr) {
     int r = RandomNumber(itr); //or define any number upto 20MB
@@ -86,7 +86,7 @@ void MemoryRandomReadOperation(int block_size, int itr) {
         is.read(memRead[i], block_size);
 
     is.close();
-}
+} // do Random read
 
 void MemorySequentialReadOperation(int block_size, int itr) {
     ifstream is ("~/TestFile20MB", ifstream::binary);
@@ -98,7 +98,7 @@ void MemorySequentialReadOperation(int block_size, int itr) {
         is.read(memRead[i], block_size);
 
     is.close();
-}
+} // do Sequential read
 
 void getResult(int block_size, int itr, int opt) {
     switch (opt) {
@@ -114,30 +114,35 @@ void getResult(int block_size, int itr, int opt) {
 
         default: cout << "Error in getting result.\n";
     }
-}
+} // peform operations base on opt
 
 void * ReadWriteThread(void * args) {
     struct arg *arguments;
     arguments = (struct arg *)args;
     getResult(arguments->block_size, arguments->itr, rw);
     pthread_exit(NULL);
-}
+} // perform thread
 
 void * SequentialReadThrerad(void * args) {
     struct arg *arguments;
     arguments = (struct arg *)args;
     getResult(arguments->block_size, arguments->itr, seqread);
     pthread_exit(NULL);
-}
+} // perform thread
 
 void * RandomReadThread(void * args) {
     struct arg *arguments;
     arguments = (struct arg *)args;
     getResult(arguments->block_size, arguments->itr, ranread);
     pthread_exit(NULL);
-}
+} // perform thread
 
 int main(int argc, char *argv[]) {
+    /*
+    Argv[1] ... operations  (rw, seqread, ranread)
+    Argv[2] ... block sizes (1B, 1KB, 1MB, 10MB)
+    Argv[3] ... threads     (1, 2 ,4 ,8)
+    */
     int block_size;
     struct arg arguments;
     pthread_t threads[8];
@@ -160,6 +165,7 @@ int main(int argc, char *argv[]) {
     arguments.itr = itr;
     // clock_t startclock, finishclock;
     // startclock = clock();
+    /* start creating thread */
     Timer tmr;
     switch (opT) {
         case rw:

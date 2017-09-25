@@ -8,6 +8,11 @@ testfile_size = 20 * 1024 * 1024  # File: TestFile20MB
 
 
 def readAndWrite(block_size):
+    """
+    Do r+w operation
+    Args:
+        block_size
+    """
     f = open('TestFile20MB', 'rb')
     dst = open('TestFile20MBWrite', 'wb')
     while True:
@@ -20,6 +25,11 @@ def readAndWrite(block_size):
 
 
 def sequentialRead(block_size):
+    """
+    Do Sequential Read operation
+    Args:
+        block_size
+    """
     f = open('TestFile20MB', 'rb')
     itr = int(math.ceil(testfile_size / block_size))
     for i in range(itr):
@@ -28,6 +38,11 @@ def sequentialRead(block_size):
 
 
 def randomRead(block_size):
+    """
+    Do Random Read operation
+    Args:
+        block_size
+    """
     f = open('TestFile20MB', 'rb')
     itr = int(math.ceil(testfile_size / block_size))
     for i in range(itr):
