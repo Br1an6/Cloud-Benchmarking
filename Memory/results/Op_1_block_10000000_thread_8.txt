@@ -1,17 +1,17 @@
 
 memory copying..
 memory copying..
-
-
+memory copying..
+memory copying..
 memory copying..
 memory copying..
 
-memory copying..
+
+
+
+
 
 memory copying..
 
 memory copying..
-
-memory copying..
-
-4.5e-05	ms 	2.22222e+08	MBps
+1.53193e-05	ms 	6.52771e+08	MBps

@@ -2,4 +2,4 @@
 memory copying..
 memory copying..
 
-1.1e-08	ms 	9.09091e+07	MBps
+1.11785e-08	ms 	8.94573e+07	MBps

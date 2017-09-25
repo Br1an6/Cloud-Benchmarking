@@ -4,14 +4,14 @@ Randomly Reading..
 Randomly Reading..
 Randomly Reading..
 Randomly Reading..
+Randomly Reading..
+
+
+
 
 
 
 Randomly Reading..
 
-
-
 Randomly Reading..
-
-Randomly Reading..
-0	ms 	inf	MBps
+1.44294e-06	ms 	6.93031e+09	MBps

@@ -1,5 +1,5 @@
 
 memory copying..
-memory copying..
 
-1e-05	ms 	1e+09	MBps
+memory copying..
+6.62205e-06	ms 	1.51011e+09	MBps

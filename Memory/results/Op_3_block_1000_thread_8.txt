@@ -1,12 +1,6 @@
 
 Randomly Reading..
 Randomly Reading..
-Randomly Reading..
-Randomly Reading..
-
-
-
-Randomly Reading..
 
 
 Randomly Reading..
@@ -14,4 +8,10 @@ Randomly Reading..
 Randomly Reading..
 
 Randomly Reading..
-0	ms 	inf	MBps
+
+Randomly Reading..
+
+Randomly Reading..
+
+Randomly Reading..
+1.72445e-10	ms 	5.79894e+09	MBps

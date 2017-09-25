@@ -1,5 +1,5 @@
 
 Randomly Reading..
-Randomly Reading..
 
-0	ms 	inf	MBps
+Randomly Reading..
+2.10789e-07	ms 	4.74408e+10	MBps

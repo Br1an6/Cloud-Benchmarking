@@ -1,5 +1,5 @@
 
 Sequentially Reading..
-Sequentially Reading..
 
-0	ms 	inf	MBps
+Sequentially Reading..
+3.33999e-11	ms 	2.99402e+10	MBps

@@ -29,6 +29,22 @@ struct arg {
     int itr;
 };
 
+class Timer {
+    public:
+        Timer() { clock_gettime(CLOCK_REALTIME, &beg_); }
+
+        double elapsed() {
+            clock_gettime(CLOCK_REALTIME, &end_);
+            return end_.tv_sec - beg_.tv_sec +
+                (end_.tv_nsec - beg_.tv_nsec) / 1000000000.;
+        }
+
+        void reset() { clock_gettime(CLOCK_REALTIME, &beg_); }
+
+    private:
+        timespec beg_, end_;
+};
+
 double LatencyInms(double result, int itr) {
     double ret = double(((double)result / 1000) / (double)itr);
     return ret;
@@ -55,7 +71,7 @@ void MemoryReadWriteOperation(int block_size, int itr) {
         memWrite[i]=new char[block_size];
         memcpy(memWrite[i], memRead[i], block_size);
     }
-    
+
     is.close();
 }
 
@@ -65,10 +81,10 @@ void MemoryRandomReadOperation(int block_size, int itr) {
     char **memRead = new char*[itr];
     cout << "\nRandomly Reading.." << endl;
     is.seekg(r, is.beg);
-    
+
     for (int i = 0; i<itr; i++)
         is.read(memRead[i], block_size);
-    
+
     is.close();
 }
 
@@ -77,10 +93,10 @@ void MemorySequentialReadOperation(int block_size, int itr) {
     char **memRead = new char*[itr];
     cout << "\nSequentially Reading.." << endl ;
     is.seekg(0, is.beg);
-    
+
     for (int i = 0; i<itr; i++)
         is.read(memRead[i], block_size);
-    
+
     is.close();
 }
 
@@ -95,7 +111,7 @@ void getResult(int block_size, int itr, int opt) {
         case ranread:
             MemoryRandomReadOperation(block_size, itr);
             break;
-            
+
         default: cout << "Error in getting result.\n";
     }
 }
@@ -125,25 +141,26 @@ int main(int argc, char *argv[]) {
     int block_size;
     struct arg arguments;
     pthread_t threads[8];
-    
+
     //rw, seqread, ranread
     string oType = argv[1];
     int opT = atoi(oType.c_str());
-    
+
     //(1B, 1KB, 1MB, 10MB)
     string bsize = argv[2];
     block_size = atoi(bsize.c_str());
-    
+
     // (1, 2 ,4 ,8)
     string threadCnt = argv[3];
     int num_of_thread = atoi(threadCnt.c_str());
     int itr =  ceil((20*1000*1000) / block_size); // 20MB
-    
+
     //add to the argument
     arguments.block_size = block_size;
     arguments.itr = itr;
-    clock_t startclock, finishclock;
-    startclock = clock();
+    // clock_t startclock, finishclock;
+    // startclock = clock();
+    Timer tmr;
     switch (opT) {
         case rw:
             for (int i = 0; i < num_of_thread; i++) {
@@ -167,17 +184,18 @@ int main(int argc, char *argv[]) {
                 pthread_create(&threads[i], NULL, &RandomReadThread, (void *)&arguments);
             }
             break;
-            
+
         default: cout << "Please enter 1 for Read+Write, 2 for Random read or 3 for Sequential read.\n";
     }
-    
+
     /* block until all threads complete */
     for ( int i = 0; i < num_of_thread; ++i)
         pthread_join(threads[i], NULL);
 
-    finishclock = clock();
-    double durationtime = (double)(finishclock - startclock) / CLOCKS_PER_SEC;
+    // finishclock = clock();
+    double durationtime = tmr.elapsed();
+    // double durationtime = (double)(finishclock - startclock) / CLOCKS_PER_SEC;
     cout << LatencyInms(durationtime, itr) << "\tms \t" << ThroughputInMBps(durationtime, block_size, itr) << "\tMBps" << endl;
-    
+
     pthread_exit(NULL);
 }
