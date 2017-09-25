@@ -1,0 +1,7 @@
+[*] Send Packet with size(bytes) 64000
+[*] Get data: Connected
+
+[*] Get data: Connected
+
+Latency(ms) 4.27889823914
+Throughput(Mega Bits/Sec) 119.656970413

@@ -1,0 +1,5 @@
+[*] Send Packet with size(bytes) 64000
+[*] Get data: Response
+[*] Get data: Response
+Latency(ms) 3.82995605469
+Throughput(Mega Bits/Sec) 133.682996016

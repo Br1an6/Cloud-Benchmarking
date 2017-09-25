@@ -1,0 +1,3 @@
+
+memory copying..
+1.5e-09	ms 	6.66667e+08	MBps

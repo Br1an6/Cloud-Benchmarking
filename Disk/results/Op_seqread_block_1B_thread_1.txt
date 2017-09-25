@@ -1,0 +1,2 @@
+Disk reading speed(MBytes/s):  3.98406773374
+Latency(ms): 0.00501999497414

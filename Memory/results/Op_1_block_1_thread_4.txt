@@ -1,0 +1,9 @@
+
+memory copying..
+memory copying..
+
+
+memory copying..
+memory copying..
+
+1.061e-09	ms 	942507	MBps
