@@ -1,11 +1,7 @@
-import socket
 import sys
-import multiprocessing
+import socket
 import time
-"""
-for mac testing command:
-due to by default macOS has limited the maximum UDP-package to be 9216 bytes
-"""
+import multiprocessing
 
 
 def send2server(bytes2send):
@@ -14,17 +10,21 @@ def send2server(bytes2send):
     Arg:
         bytes2send...bytes
     """
-    # target_host = "129.114.33.155" # external port is not open
-    target_host = "192.168.0.64"
-    target_port = 9998
+    target_host = '127.0.0.1'
+    target_port = 9999
 
     # create a socket object
-    client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    client.sendto(bytes2send, (target_host, target_port))
-    data, addr = client.recvfrom(4096)
+    # connect the client
+    client.connect((target_host, target_port))
 
-    print '[*] Get data:', data
+    # send 64 bytes
+    client.send(bytes2send)
+
+    # receive data
+    response = client.recv(4096)
+    print '[*] Get data:', response
 
 
 def main():
@@ -59,11 +59,9 @@ def main():
             t.join()
 
         duration = time.time() - start
-        print 'Latency(ms)', duration * 1000
+        print 'Time elapsed', duration
         print 'Throughput(Mega Bits/Sec)', (len(bt) * 0.000008) / duration
         f.close()
-
-
 
 if __name__ == '__main__':
     main()

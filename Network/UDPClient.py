@@ -58,7 +58,7 @@ def main():
             t.join()
 
         duration = time.time() - start
-        print 'Time elapsed', duration
+        print 'Latency(ms)', duration * 1000
         print 'Throughput(Mega Bits/Sec)', (len(bt) * 0.000008) / duration
         f.close()
 
