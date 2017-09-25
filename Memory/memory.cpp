@@ -10,7 +10,7 @@
 #include <pthread.h>
 #include <fstream>
 #include <cstdio>
-#include <string>
+#include <cstring>
 #include <ctime>
 #include <cstdlib>
 #include <cmath>
