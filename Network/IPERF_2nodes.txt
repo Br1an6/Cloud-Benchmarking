@@ -1,0 +1,48 @@
+TCP:
+Server:
+[cc@pa1-lp-t ~]$ iperf -s -p 9999
+------------------------------------------------------------
+Server listening on TCP port 9999
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 192.168.0.186 port 9999 connected with 192.168.0.178 port 40738
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0-20.0 sec  2.33 GBytes  1.00 Gbits/sec
+
+Client:
+[cc@pa1-liu-pereira ~]$ iperf -c 192.168.0.186 -t 20 -p 9999 -w 40k
+------------------------------------------------------------
+Client connecting to 192.168.0.186, TCP port 9999
+TCP window size: 80.0 KByte (WARNING: requested 40.0 KByte)
+------------------------------------------------------------
+[  3] local 192.168.0.178 port 40738 connected with 192.168.0.186 port 9999
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0-20.0 sec  2.33 GBytes  1.00 Gbits/sec
+
+UDP:
+
+Server:
+[cc@pa1-lp-t ~]$ iperf -s -u -p 9999
+------------------------------------------------------------
+Server listening on UDP port 9999
+Receiving 1470 byte datagrams
+UDP buffer size:  208 KByte (default)
+------------------------------------------------------------
+[  3] local 192.168.0.186 port 9999 connected with 192.168.0.178 port 58691
+[ ID] Interval       Transfer     Bandwidth        Jitter   Lost/Total Datagrams
+[  3]  0.0-10.0 sec  1.25 MBytes  1.05 Mbits/sec   0.019 ms    0/  893 (0%)
+
+
+Client:
+[cc@pa1-liu-pereira ~]$ iperf -c 192.168.0.186 -u -p 9999
+------------------------------------------------------------
+Client connecting to 192.168.0.186, UDP port 9999
+Sending 1470 byte datagrams, IPG target: 11215.21 us (kalman adjust)
+UDP buffer size:  208 KByte (default)
+------------------------------------------------------------
+[  3] local 192.168.0.178 port 58691 connected with 192.168.0.186 port 9999
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0-10.0 sec  1.25 MBytes  1.05 Mbits/sec
+[  3] Sent 893 datagrams
+[  3] Server Report:
+[  3]  0.0-10.0 sec  1.25 MBytes  1.05 Mbits/sec   0.019 ms    0/  893 (0%)
