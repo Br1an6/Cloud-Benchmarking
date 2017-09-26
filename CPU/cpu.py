@@ -3,7 +3,7 @@ import sys
 import multiprocessing
 import time
 """
-Using Multiprrocessing instead of threading:
+Using Multiprocessing instead of threading:
 Separate memory space
 Takes advantage of multiple CPUs & cores
 Avoids GIL limitations for cPython
