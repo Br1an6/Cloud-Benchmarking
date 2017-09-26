@@ -5,10 +5,8 @@ CS553: Cloud Computing
 
 Brian         | Sharel
 ------------- | -------------
-Linpack       | Linpack
-IPref         |
-Stream        |
-creat graph   |creat graph
+              | Linpack:GPU
+create graph  |create graph
 doc           |doc
 
 > comparing result with benchmark-testing tool
@@ -44,7 +42,7 @@ cd spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/stream-5.10-uuffcl3mhvonezosbp
 ```
 iperf -c 192.168.0.101
 ```
-[Iperf](http://www.slashroot.in/iperf-how-test-network-speedperformancebandwidth)
+[IPerf](http://www.slashroot.in/iperf-how-test-network-speedperformancebandwidth)
 
 
 **LINPACK:**
