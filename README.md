@@ -50,7 +50,7 @@ iperf -c 192.168.0.101
 **LIPPACK:**
 ```
 cd spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/hpl-2.2-bhssr2qm5lwigf65o6dvvks2whbsegaw/bin/
-mpirun -n 3 ./xhpl
+mpirun -n 8 ./xhpl
 ```
 
 first make sure you have a c compiler (gcc, icc, clang) and fortran (gfortran) installed:
