@@ -1,0 +1,19 @@
+[*] Send Packet with size(bytes) 64000
+[*] Get data: Connected
+
+[*] Get data: Connected
+
+[*] Get data: Connected
+
+[*] Get data: Connected
+
+[*] Get data: Connected
+
+[*] Get data: Connected
+
+[*] Get data: Connected
+
+[*] Get data: Connected
+
+Latency(ms) 10.1339817047
+Throughput(Mega Bits/Sec) 50.5230831196
