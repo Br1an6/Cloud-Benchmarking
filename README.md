@@ -5,7 +5,7 @@ CS553: Cloud Computing
 
 Brian         | Sharel
 ------------- | -------------
-              | Linpack:GPU
+N/A           | Linpack:GPU
 create graph  |create graph
 doc           |doc
 
