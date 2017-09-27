@@ -9,8 +9,14 @@ N/A           | Linpack:GPU
 create graph  |create graph
 doc           |doc
 
-> comparing result with benchmark-testing tool
->> test on KVM
+> For setting up CentOS DNS
+
+```
+sudo vi /etc/resolv.conf
+sudo service dnsmasq restart
+```
+[Tutorial](http://ask.xmodulo.com/configure-static-dns-centos-fedora.html)
+
 
 ###### Useful link
 
