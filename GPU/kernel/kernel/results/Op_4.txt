@@ -1,0 +1,12 @@
+Optn is 4
+You selected QOPS
+Creating kernel for qops  0
+Creating kernel for qops  1
+Creating kernel for qops  2
+Creating kernel for qops  3
+Creating kernel for qops  4
+Creating kernel for qops  5
+Creating kernel for qops  6
+Creating kernel for qops  7
+Time taken in GQOPS: 0.001350000
+Process completed

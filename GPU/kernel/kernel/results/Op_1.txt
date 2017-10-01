@@ -1,0 +1,12 @@
+Optn is 1
+You selected FLOPS
+Creating kernel for flops  0
+Creating kernel for flops  1
+Creating kernel for flops  2
+Creating kernel for flops  3
+Creating kernel for flops  4
+Creating kernel for flops  5
+Creating kernel for flops  6
+Creating kernel for flops  7
+Time taken in GFLOPS: 0.001320000
+Process completed

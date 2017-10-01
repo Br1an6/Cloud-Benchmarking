@@ -1,0 +1,12 @@
+Optn is 3
+You selected HOPS
+Creating kernel for iops  0
+Creating kernel for iops  1
+Creating kernel for iops  2
+Creating kernel for iops  3
+Creating kernel for iops  4
+Creating kernel for iops  5
+Creating kernel for iops  6
+Creating kernel for iops  7
+Time taken in GHOPS: 0.001360000
+Process completed

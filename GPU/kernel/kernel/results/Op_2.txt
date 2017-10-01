@@ -1,0 +1,12 @@
+Optn is 2
+You selected IOPS
+Creating kernel for iops  0
+Creating kernel for iops  1
+Creating kernel for iops  2
+Creating kernel for iops  3
+Creating kernel for iops  4
+Creating kernel for iops  5
+Creating kernel for iops  6
+Creating kernel for iops  7
+Time taken in GIOPS: 0.001340000
+Process completed
