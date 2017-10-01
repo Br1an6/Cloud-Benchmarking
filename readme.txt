@@ -12,6 +12,11 @@ How to start benchmarking CPU
 		chmod +x run.sh
 After the script finished, all the results will be store under /results. The file title will contain all the informations for different parameters. (Total: 8 files)
 
+	For 8 threads 10-minute, Please run:
+	./run_10min.sh
+After the script finished, all the results will be store under /results_10min. The file title will contain all the informations for different parameters. (Total: 2 files)
+
+
 How to start benchmarking GPU
        	First, change the current directory to /GPU under folder “PA1_Liu_Pereira”:
 		cd GPU/kernel/kernel/
