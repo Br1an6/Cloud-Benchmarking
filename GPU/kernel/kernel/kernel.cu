@@ -51,8 +51,8 @@ int main(int argc, char * * argv) {
   clock_t start, stop;
   double elapsed;
 
-  //define number of streams - 3584
-  const int cores = 8;
+  //define number of streams - 2496
+  const int cores = 2496;
   cudaStream_t streams[cores];
 
   int op = 0;
@@ -123,7 +123,7 @@ int main(int argc, char * * argv) {
 
       // launch one worker kernel per stream
       shortKernel << < 1, 64, 0, streams[i] >>> (hops[i], numElements);
-      printf("Creating kernel for iops  %d\n", i);
+      printf("Creating kernel for hops  %d\n", i);
 
     }
     //End time
