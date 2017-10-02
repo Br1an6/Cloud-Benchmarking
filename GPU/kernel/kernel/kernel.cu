@@ -1,7 +1,7 @@
-#include < stdio.h >
-#include < time.h >
-#include < math.h > 
-#include < pthread.h >
+#include <cstdio>
+#include <ctime>
+#include <cmath> 
+#include <pthread.h>
 
   __global__ void doubleKernel(double * x, int n) {
     int tid = threadIdx.x + blockIdx.x * blockDim.x;
