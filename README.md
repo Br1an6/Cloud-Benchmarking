@@ -5,9 +5,8 @@ CS553: Cloud Computing
 
 Brian         | Sharel
 ------------- | -------------
-N/A           | Linpack:GPU
-create graph  |create graph
-doc           |doc
+N/A           | N/A
+
 
 > For setting up CentOS DNS
 
@@ -19,11 +18,6 @@ sudo service dnsmasq restart
 
 
 ###### Useful link
-
-<https://github.com/hparik11/Cloud_Benchmarking>
-
-___
-
 <https://openstack.tacc.chameleoncloud.org>
 
 <https://drive.google.com/file/d/0B_hC3I6jDR_-ZUZtWlRkNzVVb3M/view?usp=sharing>
