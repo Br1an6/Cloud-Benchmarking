@@ -51,17 +51,9 @@ cd spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/hpl-2.2-bhssr2qm5lwigf65o6dvvk
 mpirun -n 8 ./xhpl
 ```
 
-first make sure you have a c compiler (gcc, icc, clang) and fortran (gfortran) installed:
-
+```
 git clone https://github.com/llnl/spack.git
 export PATH="spack/bin:$PATH"
 spack find
 spack install hpl cflags="-march=native -mtune=native -O3" ^intel-mkl ^mpich 
-
-spack is basically a package manager that takes care of a lot of dependencies. the ^-intel-mkl and ^mpich flags in the installation command are just instructions to install those implementations of the needed dependencies (they are the best ones, and the ones that will compile without any trouble).. The cflags are the best possible compilation optimizations that will give you the fastest binary. They compile the binary to work with all the instructions available on your particular CPU, while also providing the most number of code optimizations.
-
-Then find the folder where the hpl binary is (the binary will be called "xhpl") and in that same directory there will be a file called HPL.dat. Edit that file and give it a large enough problem size by modyfing the N parameter.
-
-To run, make sure you have mpi in your path:
-
-mpirun -n (number of MPI ranks, equal to product of the P and Q parameters that you chose in HPL.dat) ./xhpl
+```
