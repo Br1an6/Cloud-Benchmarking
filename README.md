@@ -16,12 +16,6 @@ sudo service dnsmasq restart
 ```
 [Tutorial](http://ask.xmodulo.com/configure-static-dns-centos-fedora.html)
 
-
-###### Useful link
-<https://openstack.tacc.chameleoncloud.org>
-
-<https://drive.google.com/file/d/0B_hC3I6jDR_-ZUZtWlRkNzVVb3M/view?usp=sharing>
-
 ## benchmark tools 
 
 **IOZone benchmark**
