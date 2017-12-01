@@ -74,7 +74,7 @@ Also, please make sure IPs are correct and ports (9999. 9998) are open. Change t
 
 After the script finished, all the results will be store under /results. The file title will contain all the informations for different parameters. (Total: 16 files)
 
-Appendix: 
+*Appendix:* 
 In Memory, Disk, and Network folders, there are several createfile.sh and TestFile{$size_of_file}. These scripts are for generating testing files with particular size. No need to run the scripts again, since all the files are already generated.
 
 For quickly browsing results, change directory to results:
