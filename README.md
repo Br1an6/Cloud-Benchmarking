@@ -2,52 +2,84 @@
 
 How to start benchmarking CPU
 First, change the current directory to /CPU under folder “Cloud-Benchmarking”:
-		`cd CPU/`
+
+`cd CPU/`
+
 Run the shell script: run.sh:
-		`./run.sh`
+
+`./run.sh`
+
 If any permission issues show up, please do chmod for the permission:
-		`chmod +x run.sh`
+
+`chmod +x run.sh`
+
 After the script finished, all the results will be store under /results. The file title will contain all the informations for different parameters. (Total: 8 files)
 
 For 8 threads 10-minute, Please run:
-	`./run_10min.sh`
+
+`./run_10min.sh`
+
 After the script finished, all the results will be store under /results_10min. The file title will contain all the informations for different parameters. (Total: 2 files)
 
 
 How to start benchmarking GPU
 First, change the current directory to /GPU under folder “Cloud-Benchmarking”:
-		`cd GPU/kernel/kernel/`
+
+`cd GPU/kernel/kernel/`
+
 Run the shell script: run.sh:
-		`./run.sh`
+
+`./run.sh`
+
 If any permission issues show up, please do chmod for the permission:
-		`chmod +x run.sh`
+
+`chmod +x run.sh`
+
 After the script finished, all the results will be store under /results. The file title will contain all the informations for different parameters. (Total: 4 files)
 
 How to start benchmarking Memory
 First, change the current directory to /Memory under folder “Cloud-Benchmarking”:
-		`cd Memory/`
+
+`cd Memory/`
+
 Run the shell script: run.sh:
-		`./run.sh`
+
+`./run.sh`
+
 If any permission issues show up, please do chmod for the permission:
-		`chmod +x run.sh`
+
+`chmod +x run.sh`
+
 After the script finished, all the results will be store under /results. The file title will contain all the informations for different parameters. (Total: 48 files)
 
 How to start benchmarking Disk
 First, change the current directory to /Disk under folder “Cloud-Benchmarking”:
-		`cd Disk/`
+
+`cd Disk/`
+
 Run the shell script: run.sh:
-		`./run.sh`
+
+`./run.sh`
+
 If any permission issues show up, please do chmod for the permission:
-		`chmod +x run.sh`
+
+`chmod +x run.sh`
+
 After the script finished, all the results will be store under /results. The file title will contain all the informations for different parameters. (Total: 48 files)
 
 How to start benchmarking Network
 First, change the current directory to /Network under folder “Cloud-Benchmarking”:
-		`cd Network/`
-For loopback(1 node):
+
+`cd Network/`
+
+**For loopback(1 node):**
+
 Run the shell script: run.sh for testing UDP and TCP connection with loopback(1 node):
-		`./run.sh`
-For 2 nodes:
+
+`./run.sh`
+
+**For 2 nodes:**
+
 For this testing, you will need two machines. The following is represented as node:1 & node:2.
 You will need to modify 2 files (UDPClient_2nodes.py, TCPClient_2nodes.py).
 1. UDPClient_2nodes.py: line 18: target_host = "node:1 IP"
@@ -55,31 +87,47 @@ You will need to modify 2 files (UDPClient_2nodes.py, TCPClient_2nodes.py).
 Change the ports in python files “target_port = “ if necessary.
 
 First, run the shell script: run_servers.sh on node:1 for starting servers.
-    `./run_servers.sh`
+
+`./run_servers.sh`
+
 Then run the shell script: run_for_2nodes.sh on node:2 for testing UDP and TCP connection with 2 nodes(2 node):
-		`./run_for_2nodes.sh`
+
+`./run_for_2nodes.sh`
+
 If any permission issues show up, please do chmod for the permission:
-		`chmod +x run.sh`
-*important:*
+
+`chmod +x run.sh`
+
+**important:**
+
 After using ctrl + c to stop the servers script, please make sure you kill all the processes
-    `ps -fA | grep python`
+
+`ps -fA | grep python`
+
 > kill PID1 PID2
+
 ↑ PID1 and PID2 are the python servers’ processes IDs
 
 Also, please make sure IPs are correct and ports (9999. 9998) are open. Change the ports in python files `target_port = ` if necessary.
 
 After the script finished, all the results will be store under /results. The file title will contain all the informations for different parameters. (Total: 16 files)
 
-Appendix: 
+**Appendix:**
+
 In Memory, Disk, and Network folders, there are several createfile.sh and TestFile{$size_of_file}. These scripts are for generating testing files with particular size. No need to run the scripts again, since all the files are already generated.
 
 For quickly browsing results, change directory to results:
-	`cd results/`
+
+`cd results/`
+
 And “cat” all the files:
-	`cat *`
+
+`cat *`
 
 If testing Network part UDP over macOS server, please make sure you do 
-		`sudo sysctl -w net.inet.udp.maxdgram=65535 `
+
+`sudo sysctl -w net.inet.udp.maxdgram=65535 `
+
 due to by default macOS has limited the maximum UDP-package to be 9216 bytes
 
 
