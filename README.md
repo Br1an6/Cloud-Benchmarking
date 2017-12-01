@@ -1,12 +1,4 @@
-# Cloud-Computing
-CS553: Cloud Computing
-
-## TODO:
-
-Brian         | Sharel
-------------- | -------------
-N/A           | N/A
-
+# Cloud-Benchmarking
 
 > For setting up CentOS DNS
 
@@ -41,7 +33,7 @@ iperf -c 192.168.0.101
 
 **LINPACK:**
 ```
-cd spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/hpl-2.2-bhssr2qm5lwigf65o6dvvks2whbsegaw/bin/
+cd spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/your_path/bin/
 mpirun -n 8 ./xhpl
 ```
 
@@ -51,3 +43,9 @@ export PATH="spack/bin:$PATH"
 spack find
 spack install hpl cflags="-march=native -mtune=native -O3" ^intel-mkl ^mpich 
 ```
+
+License
+-------
+
+This software is licensed under the MIT license
+© 2017 Cloud Benchmarking  contributors [Br1an6](https://github.com/Br1an6) &  [Sh4rel](https://github.com/Sh4rel)
