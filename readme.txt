@@ -1,8 +1,4 @@
 Manual
-A20375099 Yuan-An Liu, 
-A20382007 Sharel Clavy Pereira
-
-
 How to start benchmarking CPU
 	First, change the current directory to /CPU under folder “PA1_Liu_Pereira”:
 		cd CPU/
